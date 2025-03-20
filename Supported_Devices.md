@@ -9,6 +9,7 @@
 | 黑鲨4 | penrose | 4.19/DtHnAme/(Nothing) | MIUI/JoyUI 12 | 11 | AnyKernel3 | Next | ❌ | ❌ | ✅ | Stable |  
 | 小米 10S | thyme | 4.19/TIMISONG-dev/MagicTime | Based-AOSP | 15 | AnyKernel3 | Next | ✅ | ❌ | ❌ | Stable |  
 | 中兴 A201ZT | a201zt | 4.19/官方内核 | 未知 | Null | AnyKernel3 | Next | ❌ | ❌ | ❌ | Suspend |  
+| 三星 S20-5G | x1q | 4.19/官方内核 | Oneui 5.1/6.1 | 13/14 | Boot Image | KernelSU | ❌ | ❌ | ❌ | Suspend |  
 
 特别说明：
   - 我们提供的KernelSU分支包括：[Next](https://github.com/KernelSU-Next/KernelSU-Next)、[Magic](https://github.com/backslashxx/KernelSU)、[rsuntk](https://github.com/rsuntk/KernelSU)、[lightsummer233](https://github.com/lightsummer233/KernelSU)、[酷友二创-mksu-skn](https://github.com/ShirkNeko/KernelSU)
