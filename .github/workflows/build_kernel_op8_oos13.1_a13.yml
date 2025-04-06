@@ -138,7 +138,7 @@ jobs:
       - name: Get Kernel Source
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --recursive ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_BRANCH }} device_kernel --depth=1
+          git clone --recursive ${{ https://github.com/youngguo18/android_kernel_OPPO_sm8250.git }} -b ${{ 12.1 }} device_kernel --depth=1
           if [[ -n "${{ env.DEFCONFIG_SOURCE }}" ]]; then
             wget ${{ env.DEFCONFIG_SOURCE }} -O device_kernel/arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
           fi
