@@ -1,4 +1,4 @@
-name: Build Kernel Arch Xiaomi 5 (Crdroid A13) with KSU
+name: Build Kernel Xiaomi 5 (Crdroid A13) with KSU
 on:
   workflow_call:
   workflow_dispatch:
@@ -19,9 +19,8 @@ env:
 
 jobs:
   build:
-    name: Build Kernel by ${{ github.actor }} in Arch Linux
-    runs-on: ubuntu-latest
-    container: archlinux/archlinux:latest
+    name: Build Kernel by ${{ github.actor }}
+    runs-on: ubuntu-22.04
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
@@ -58,6 +57,7 @@ jobs:
               BOOT_SOURCE
               LXC_ENABLE
               HAVE_NO_DTBO
+              HAVE_NO_DTBO_TOOL
               ROM_TEXT
 
           )
@@ -72,13 +72,31 @@ jobs:
 
           # Move patch folder to tmp
           mv $GITHUB_WORKSPACE/Patches /tmp/
+        
 
       - name: Install necessary packages
         run: |
-          cat /etc/os-release
+          lsb_release -a
+          UBUNTU_VERSION=$(lsb_release -sr)
+          sudo apt-get update
+          if [ $UBUNTU_VERSION == "22.04" ] || [ $UBUNTU_VERSION == "20.04" ]; then
+            sudo apt-get install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler
+            sudo apt-get install p7zip p7zip-full -y
+            if [ "${{ env.PYTHON_VERSION }}" == "3" ]; then
+                sudo apt install python2 python3 -y
+            elif [ "${{ env.PYTHON_VERSION }}" == "2" ]; then
+                sudo apt install python2 -y
+                sudo rm /usr/bin/python
+                sudo ln -s /usr/bin/python2.7 /usr/bin/python
+            else
+                echo "You need choose a python version."
+                false
+            fi
+          else
+            sudo apt-get install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python3
+            sudo apt-get install zstd libc6 binutils libc6-dev-i386 gcc g++ p7zip p7zip-full -y
+          fi
 
-          pacman -Syyu
-          pacman -S git base-devel systemd patch ccache automake flex lzop bison gperf zip curl bzip2 squashfs-tools pngcrush schedtool make optipng maven pwgen minicom bc unzip 7zip zstd binutils gcc python3 wget which --noconfirm
 
       - name: Install GNU GCC
         if: env.GCC_GNU == 'true'
