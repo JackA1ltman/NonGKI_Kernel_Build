@@ -1,4 +1,4 @@
-name: Build Kernel Arch Xiaomi 5 (Los A13) with KSU
+name: Build Kernel Xiaomi 5 (Los A15) with KSU
 on:
   workflow_call:
   workflow_dispatch:
